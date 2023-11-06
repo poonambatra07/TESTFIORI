@@ -154,7 +154,18 @@
                     "route": "Books_textsObjectPage"
                   }
                 }
-              }
+              },
+              "content": {
+                "body": {
+                    "sections": {
+                        "customSection": {
+                            "template": "sampleproject.sampleproject1.ext.CustomSection",
+                            "title": "{i18n>customSection}"
+                           
+                        }
+                    }
+                }
+            }
             }
           }
         },

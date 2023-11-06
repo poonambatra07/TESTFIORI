@@ -1,0 +1,51 @@
+<!--All Rights Reserved 
+-->
+<core:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:macros="sap.fe.macros"
+    xmlns:layout="sap.ui.layout"
+    >
+    <!--
+        Fiori Elements expect a single item in the fragment and will not import any "require" if put at the "FragmentDefinition" level
+        Pack the form in a VBox to adhere to that restriction
+    -->
+    <VBox core:require="{handler: 'sampleproject/sampleproject1/ext/CustomSection'}">
+		<form:Form id="Form" visible="true">
+            <form:title>
+                <core:Title text="Test Segment"/>
+            </form:title>
+                <form:layout>
+                    <form:GridLayout 
+                    />
+                </form:layout>
+            <form:FormContainer 
+                title="Test Parameters"
+                id="GeneralCorrespondenceParameters">
+                <form:layoutData>
+                    <form:GridContainerData  halfGrid="true" id="testgrid1"
+                    />
+                </form:layoutData>
+                <form:FormElement id="element1">
+                    <Button id="buttonid" text="button" press="handler.pressbutton" type="Emphasized"/>
+                </form:FormElement>
+               
+				  <form:FormElement label="ComboBOX" id="combo">
+                    <ComboBox
+                        id="parametercomboID"
+                        selectionChange="handler.oncombopress"
+                    >
+                    <items>
+                        <core:Item key="1" text="test1" id="test1" />
+                        <core:Item key="2" text="test2" id="test2" />
+                    </items>
+                       
+                    </ComboBox>
+                </form:FormElement>
+				 </form:FormContainer>
+            
+        </form:Form>
+
+	</VBox>
+</core:FragmentDefinition>
