@@ -1,7 +1,7 @@
 using { Currency, managed, sap } from '@sap/cds/common';
 namespace sap.capire.bookshop;
 
-entity Books : managed {
+entity Books : managed { //case
   key ID : Integer;
   title  : localized String(111) @mandatory ;
   descr  : localized String(1111);
@@ -11,6 +11,13 @@ entity Books : managed {
   price  : Decimal;
   currency : Currency;
   image : LargeBinary @Core.MediaType : 'image/png';
+ Agent_ID : Integer;
+
+   //roles
+  Attorney : BooksEmployeeRoleType;
+  SingleAttorney : BooksEmployeeRoleType;
+   Client : BooksEmployeeRoleType;
+
 }
 
 entity Authors : managed {
@@ -28,4 +35,29 @@ entity Genres : sap.common.CodeList {
   key ID   : Integer;
   parent   : Association to Genres;
   children : Composition of many Genres on children.parent = $self;
+}
+
+
+type BooksEmployeeRoleType {
+
+    Employee                                : Association to Employee                      @title: '{i18n>Employee}';
+}
+
+entity Employee : managed {
+  key ID : Integer;
+  name: String;
+  type: String;
+  Employee : Association to Employee on Employee.ID = ID;
+  BookCases                          : Association to many Books on ID  IN ( BookCases.Attorney.Employee.ID, BookCases.SingleAttorney.Employee.ID, BookCases.Client.Employee.ID) ; 
+
+  
+}
+
+entity Cases : managed {
+  key ID : Integer;
+  name: String;
+  EID: Integer;
+  BookID: Integer;
+  Agent: Association to  Employee;
+  
 }
