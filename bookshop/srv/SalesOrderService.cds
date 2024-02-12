@@ -5,13 +5,10 @@ service SalesOrderService @(path:'/browse') {
   
   @odata.draft.enabled
   entity SalesOrder as projection on my.SalesOrder;
+  
   entity SalesOrderItem as projection on my.SalesOrderItem;
 
   entity Product as projection on my.Product;
-
-
-
-//annotate SalesOrderService.SalesOrder with @odata.draft.enabled;
 
 }
 

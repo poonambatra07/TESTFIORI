@@ -1,9 +1,5 @@
 using SalesOrderService as service from '../../srv/SalesOrderService';
 
-
-// annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
-// annotate service.SalesOrder with @odata.draft.enabled;
-
 annotate service.SalesOrder with @(
  UI.LineItem : [
         {

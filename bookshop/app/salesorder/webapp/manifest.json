@@ -58,6 +58,12 @@
       "compact": true,
       "cozy": true
     },
+    "rootView": {
+      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+      "type": "XML",
+      "async": true,
+      "id": "appRootView"
+  },
     "models": {
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
@@ -84,22 +90,37 @@
       "css": []
     },
     "routing": {
-      "config": {},
+      "config": {
+        "flexibleColumnLayout": {
+            "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
+            "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+        },
+        "routerClass": "sap.f.routing.Router"
+      },
       "routes": [
         {
           "pattern": ":?query:",
           "name": "SalesOrderList",
-          "target": "SalesOrderList"
+          "target":[ 
+            "SalesOrderList" 
+          ]
         },
         {
           "pattern": "SalesOrder({key}):?query:",
           "name": "SalesOrderObjectPage",
-          "target": "SalesOrderObjectPage"
+          "target": [
+            "SalesOrderList",
+            "SalesOrderObjectPage"
+          ]
         },
         {
           "pattern": "SalesOrder({key})/SalesOrderItems({key2}):?query:",
           "name": "SalesOrderItemObjectPage",
-          "target": "SalesOrderItemObjectPage"
+          "target": [
+            "SalesOrderList",
+            "SalesOrderObjectPage",
+            "SalesOrderItemObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -120,7 +141,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": ""
         },
         "SalesOrderObjectPage": {
           "type": "Component",
@@ -138,7 +161,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "/SalesOrder({key})"
         },
         "SalesOrderItemObjectPage": {
           "type": "Component",
@@ -149,7 +174,9 @@
               "editableHeaderContent": false,
               "entitySet": "SalesOrderItem"
             }
-          }
+          },
+          "controlAggregation": "endColumnPages",
+          "contextPattern": "/SalesOrder({key})/SalesOrderItems({key2})"
         }
       }
     }
