@@ -2,10 +2,10 @@ using { sap.capire.bookshop as my } from '../db/schema';
 service CatalogService @(path:'/browse') {
 
   /** For displaying lists of Books */
-  @readonly entity ListOfBooks as projection on Books 
+  entity ListOfBooks as projection on Books
   excluding { descr };
-  @readonly entity Employee as projection on my.Employee;
-   @readonly entity Cases as projection on my.Cases;
+ // @readonly entity Employee as projection on my.Employee;
+  // @readonly entity Cases as projection on my.Cases;
 
   /** For display in details pages */
   @readonly entity Books as projection on my.Books { *,

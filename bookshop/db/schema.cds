@@ -1,7 +1,8 @@
 using { Currency, managed, sap } from '@sap/cds/common';
 namespace sap.capire.bookshop;
+using { cuid } from '@sap/cds/common';
 
-entity Books : managed { //case
+entity Books  { //case
   key ID : Integer;
   title  : localized String(111) @mandatory ;
   descr  : localized String(1111);
@@ -11,12 +12,12 @@ entity Books : managed { //case
   price  : Decimal;
   currency : Currency;
   image : LargeBinary @Core.MediaType : 'image/png';
- Agent_ID : Integer;
+//  Agent_ID : Integer;
 
-   //roles
-  Attorney : BooksEmployeeRoleType;
-  SingleAttorney : BooksEmployeeRoleType;
-   Client : BooksEmployeeRoleType;
+//    //roles
+//   Attorney : BooksEmployeeRoleType;
+//   SingleAttorney : BooksEmployeeRoleType;
+//    Client : BooksEmployeeRoleType;
 
 }
 
@@ -38,26 +39,48 @@ entity Genres : sap.common.CodeList {
 }
 
 
-type BooksEmployeeRoleType {
+// type BooksEmployeeRoleType {
 
-    Employee                                : Association to Employee                      @title: '{i18n>Employee}';
-}
+//     Employee                                : Association to Employee                      @title: '{i18n>Employee}';
+// }
 
-entity Employee : managed {
-  key ID : Integer;
-  name: String;
-  type: String;
-  Employee : Association to Employee on Employee.ID = ID;
-  BookCases                          : Association to many Books on ID  IN ( BookCases.Attorney.Employee.ID, BookCases.SingleAttorney.Employee.ID, BookCases.Client.Employee.ID) ; 
+// entity Employee : managed {
+//   key ID : Integer;
+//   name: String;
+//   type: String;
+//   Employee : Association to Employee on Employee.ID = ID;
+//   BookCases                          : Association to many Books on ID  IN ( BookCases.Attorney.Employee.ID, BookCases.SingleAttorney.Employee.ID, BookCases.Client.Employee.ID) ; 
 
   
+// }
+
+// entity Cases : managed {
+//   key ID : Integer;
+//   name: String;
+//   EID: Integer;
+//   BookID: Integer;
+//   Agent: Association to  Employee;
+  
+// }
+
+
+entity SalesOrder  : cuid, managed {
+  key ID: Integer;
+    Description : String;
+    SalesOrderItem_ID: Integer;
+    SalesOrderItems : Composition of many SalesOrderItem on SalesOrderItems.SalesOrder= $self;
 }
 
-entity Cases : managed {
-  key ID : Integer;
-  name: String;
-  EID: Integer;
-  BookID: Integer;
-  Agent: Association to  Employee;
-  
+entity SalesOrderItem  :cuid,  managed {
+  key ID: Integer;
+    Description : String;
+    SalesOrder:  Association to SalesOrder;
+    Product : Association to one Product;
+
+}
+entity Product  : cuid, managed{
+  key ID: Integer;
+    Description : String;
+    SalesOrderItem: Association to SalesOrderItem;
+    SalesOrderItemProduct: Association to many SalesOrderItem on SalesOrderItemProduct.Product = $self;
 }
